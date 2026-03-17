@@ -16,7 +16,7 @@
         I used <header> tag which is a semantic tag used for the introductory content of a page. It improves SEO.
      ========================-->
 
-    <header>
+    <header id="home">
         <!-- Top Level identity given to h1 tag -->
         <h1>Rachit Shivhare</h1>
 
@@ -30,5 +30,37 @@
             width="100"
         >
     </header>
+
+    <!-- <hr> tab is used to provide a horizontal rule after the header to visually seperate sections. -->
+    <hr>
+
+    <!-- ====================
+        Navigation Section
+        <nav> is a semantic tag for navigation links generally used for navigation bar. It also improves SEO.
+     ========================-->
+    <nav>
+        <!-- This is the unordered list in which we can have multiple list items with anchor tags to provide the reference to the diffrent sections of the page using id. -->
+        <ul>
+            <!-- <li><a href="#home">Home</a></li> -->
+            <li><a href="#about">About</a></li>
+            <li>
+                <a href="#skills">Skills</a>
+                <ul>
+                    <li><a href="#technical-skills">Technical Skills</a></li>
+                    <li><a href="#soft-skills">Soft Skills</a></li>
+                </ul>
+            </li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <hr>
+
+    <section id="about">
+        <h2>About Me</h2>
+
+    </section>
 </body>
 </html>
