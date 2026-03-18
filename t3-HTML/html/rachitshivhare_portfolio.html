@@ -115,6 +115,8 @@
     <section id="education">
         <h2>Education</h2>
 
+        <!-- This table tag is used to create table and store data as <th> table head and <td> table data in <tr> table row with rowspan being the number of rows covered by a single row and colspan being the number of column covered by a single column -->
+        
         <table border="1">
             <tr>
                 <th rowspan="2">Degree</th>
@@ -152,7 +154,43 @@
         Projects Section
      ========================-->
     <section id="projects">
+        <h2>Projects</h2>
 
+        <!-- <ol> refers to ordered list which by default is a numbered containing (1, 2, 3). Here <li> is the list item and <article> tag is used for SEO optimization.-->
+        <ol>
+            <li>
+                <article>
+                    <h3>AutoValuator</h3>
+                    <p>
+                        Programmed a web application that predicts the price of a used car using a machine learning, yielding a prediction accuracy of 84% using Random Forest. The model was trained on 230+ models from 33 car brands, in major cities across India, and can predict accurate prices. The application also offers trend analysis information forecasting car price depreciation, with 5 year projection graphs.
+                    </p>
+                    <p><strong>Technologies Used:</strong> Python, ML, React</p>
+                    <a href="https://shivharerachit.github.io/AutoValuatorNewUI" target="_blank">View Project</a>
+                </article>
+            </li>
+
+            <li>
+                <article>
+                    <h3>Wiglr</h3>
+                    <p>
+                        Engineered AI browser extension for real-time webpage content filtering and sorting directly on web page itself. Designed intuitive interface featuring highlighted key results and quick access links. Used Gemini API to enable AI-driven content analysis and interactive Q&A.
+                    </p>
+                    <p><strong>Technologies Used:</strong> HTML, CSS, Javascript, Gemini API</p>
+                    <a href="https://www.canva.com/design/DAGjUn-PnOQ/5ghEdK4Yd2uX5wjZkT9Rzg/view" target="_blank">View Project</a>
+                </article>
+            </li>
+
+            <li>
+                <article>
+                    <h3>CropPred</h3>
+                    <p>
+                        Crafted a software-enabled application that combines real-time weather and soil data to predict crop yield, achieving an accuracy of 82% using Random Forest Classifier. Utilized OpenWeather API to acquire 30-day forecasts of weather, ensure that soil features, historical features, and the month planted were adopted to predict and recommend the top three crops for maximum yield.
+                    </p>
+                    <p><strong>Technologies Used:</strong> Python, FastAPI </p>
+                    <a href="https://github.com/shivharerachit/Minor-Model" target="_blank">View Project</a>
+                </article>
+            </li>
+        </ol>
     </section>
 </body>
 </html>
