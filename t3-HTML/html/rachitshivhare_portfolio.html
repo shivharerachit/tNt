@@ -192,5 +192,73 @@
             </li>
         </ol>
     </section>
+
+    <!-- ====================
+        Contact Section
+     ========================-->
+    <sectio id="contact">
+        <h2>Contact Me</h2>
+
+        <!-- This form tag is used to ask for multiple details as input in a form and at last there will be submit and reset button to submit and clear the form. -->
+        <form action="#" method="post">
+            
+            <!-- Label is used with input to link the label with the input box and input type is text -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br><br>
+
+            <!-- Here the input type is email so it will validate according to the email structure -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <br><br>
+
+            <!-- This is a radio button used to select amoung categorical values with same name so that only one input can be selected at a time -->
+            <label>Gender:</label><br>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label><br><br>
+
+            <!-- This is a checkbox type input where multiple values can be selected at a given time under a single name -->
+            <label>Skills Interested In:</label><br>
+            <input type="checkbox" id="frontend" name="interest" value="frontend">
+            <label for="frontend">Frontend</label>
+            <input type="checkbox" id="backend" name="interest" value="backend">
+            <label for="backend">Backend</label>
+            <br><br>
+
+            <!-- This will be a dropdown with multiple options0 -->
+            <label for="country">Country:</label><br>
+            <select id="country" name="country">
+                <option value="india">India</option>
+                <option value="usa">USA</option>
+                <option value="uk">UK</option>
+                <option value="canada">Canada</option>
+            </select><br><br>
+
+            <!-- textarea is used to take paragraph as input -->
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="4" cols="40"></textarea><br><br>
+
+            <!-- submit button to submit the form and reset to clear it -->
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </form>
+    </section>
+
+    <hr>
+
+    <!-- ====================
+        Footer Section
+     ========================-->
+    <footer>
+        <p>
+            <small>&copy; 2026 Rachit Shivhare. All Rights Reserved.</small>
+        </p>
+        <p>
+            Connect on <a href="https://www.linkedin.com/in/shivharerachit">LinkedIn</a>
+        </p>
+    </footer>
+
 </body>
 </html>
