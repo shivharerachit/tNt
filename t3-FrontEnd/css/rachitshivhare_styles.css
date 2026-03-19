@@ -14,10 +14,16 @@
     --color-border: #dde2ec;
     --color-one: #1a2744; 
     --color-two: #e8a838;
+    --color-three: #ffffff;
+    --color-four: #2c3345;
+    --color-five: #c58820;
     --font-one: 'Georgia', 'Times New Roman';
     --font-two: 'Trebuchet MS', 'Segoe UI';
+    --font-heading: 'Georgia', 'Times New Roman';
     --round: 8px;
     --shadow: rgba(26, 39, 68, 0.10);
+    --border: #dde2ec;
+    --gap: 48px
 }
 
 /* Used body selector to modify the background text color, size etc throughout the body */
@@ -152,3 +158,39 @@ nav ul ul li a:hover {
     background-color: rgba(255,255,255,0.04);
 }
 
+/* universal section selector which will select all the sections and instantly gives a unique look */
+section {
+    max-width: 900px;
+    margin: var(--gap) auto;
+    background-color: var(--color-three);
+    border-radius: var(--round);
+    padding: 36px 40px;
+    box-shadow: 0 2px 12px var(--shadow);
+    border: 1px solid var(--border);
+}
+
+
+section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--color-one);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--color-two);
+    display: inline-block;
+}
+
+section p {
+    color: var(--color-four);
+    margin-bottom: 12px;
+}
+
+strong {
+    color: var(--color-one);
+    font-weight: 700;
+}
+
+em {
+    color: var(--color-five);
+    font-style: italic;
+}
