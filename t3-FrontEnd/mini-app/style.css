@@ -52,7 +52,6 @@ header h1 {
     gap: 6px;
 }
 
-
 .analytics {
   display: flex;
   gap: 16px;
@@ -79,4 +78,66 @@ header h1 {
 .analytics-card p {
   font-size: 24px;
   font-weight: bold;
+}
+
+#loadingMsg {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+  margin: 20px 0;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.product-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.product-card p {
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.low-stock {
+  color: red;
+  font-weight: bold;
+}
+
+
+.product-card button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 7px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.product-card button:hover {
+  background-color: #c0392b;
+}
+
+.no-products-msg {
+  text-align: center;
+  font-size: 15px;
+  color: #999;
+  grid-column: 1 / -1; 
+  padding: 30px;
 }

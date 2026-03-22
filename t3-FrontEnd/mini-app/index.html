@@ -54,6 +54,36 @@
             <p id="outOfStock">0</p>
         </div>
     </section>
+
+    <p id="loadingMsg">Loading products...</p>
+    <div id="productGrid" class="product-grid"></div>
+
+    <section class="add-product-form">
+        <h2>Add New Product</h2>
+
+        <label for="productName">Product Name</label>
+        <input type="text" id="productName" placeholder="e.g. Headphones" />
+
+        <label for="productPrice">Price (₹)</label>
+        <input type="number" id="productPrice" placeholder="e.g. 1500" />
+
+        <label for="productStock">Stock Quantity</label>
+        <input type="number" id="productStock" placeholder="e.g. 10" />
+
+        <label for="productCategory">Category</label>
+        <select id="productCategory">
+            <option value="">-- Select Category --</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="books">Books</option>
+            <option value="accessories">Accessories</option>
+        </select>
+
+        <button id="addProductBtn">Add Product</button>
+        <p id="formError" style="color: red;"></p>
+    </section>
+    
+    <script src="sample.js"></script>
 </body>
 
 </html>
