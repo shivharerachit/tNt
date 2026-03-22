@@ -28,7 +28,6 @@ var products = loadProductsFromStorage();
 
 function fetchProducts() {
     return new Promise(function (resolve) {
-        // Wait 1.5 seconds, then "resolve" (return) the products
         setTimeout(function () {
             resolve(products);
         }, 1500);
@@ -131,3 +130,61 @@ function applyFiltersAndRender() {
 
   renderProducts(filtered);
 }
+
+function deleteProduct(productId) {
+  products = products.filter(function(p) {
+    return p.id !== productId;
+  });
+
+  saveProductsToStorage(products);
+
+  applyFiltersAndRender();
+  updateAnalytics();
+}
+
+document.getElementById("addProductBtn").addEventListener("click", function() {
+  var name     = document.getElementById("productName").value.trim();
+  var price    = parseFloat(document.getElementById("productPrice").value);
+  var stock    = parseInt(document.getElementById("productStock").value);
+  var category = document.getElementById("productCategory").value;
+  var errorMsg = document.getElementById("formError");
+
+  if (name === "") {
+    errorMsg.textContent = "Please enter a product name.";
+    return;
+  }
+  if (isNaN(price) || price <= 0) {
+    errorMsg.textContent = "Price must be a number greater than 0.";
+    return;
+  }
+  if (isNaN(stock) || stock < 0) {
+    errorMsg.textContent = "Stock cannot be negative.";
+    return;
+  }
+  if (category === "") {
+    errorMsg.textContent = "Please select a category.";
+    return;
+  }
+
+  errorMsg.textContent = "";
+
+  var newProduct = {
+    id: Date.now(),
+    name: name,
+    price: price,
+    stock: stock,
+    category: category
+  };
+
+  products.push(newProduct);
+
+  saveProductsToStorage(products);
+
+  document.getElementById("productName").value  = "";
+  document.getElementById("productPrice").value = "";
+  document.getElementById("productStock").value = "";
+  document.getElementById("productCategory").value = "";
+
+  applyFiltersAndRender();
+  updateAnalytics();
+});
