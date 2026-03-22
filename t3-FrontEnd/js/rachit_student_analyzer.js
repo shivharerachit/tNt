@@ -3,55 +3,55 @@ const students = [
     {
         name: "Lalit",
         marks: [
-            { subject: "Math",     score: 78 },
-            { subject: "English",  score: 82 },
-            { subject: "Science",  score: 74 },
-            { subject: "History",  score: 69 },
+            { subject: "Math", score: 78 },
+            { subject: "English", score: 82 },
+            { subject: "Science", score: 74 },
+            { subject: "History", score: 69 },
             { subject: "Computer", score: 88 }
-        ], 
+        ],
         attendance: 82
     },
     {
         name: "Rahul",
         marks: [
-        { subject: "Math",     score: 90 },
-        { subject: "English",  score: 85 },
-        { subject: "Science",  score: 80 },
-        { subject: "History",  score: 76 },
-        { subject: "Computer", score: 92 }
+            { subject: "Math", score: 90 },
+            { subject: "English", score: 85 },
+            { subject: "Science", score: 80 },
+            { subject: "History", score: 76 },
+            { subject: "Computer", score: 92 }
         ],
         attendance: 91
     },
     {
         name: "Aman",
         marks: [
-        { subject: "Math",     score: 55 },
-        { subject: "English",  score: 60 },
-        { subject: "Science",  score: 58 },
-        { subject: "History",  score: 52 },
-        { subject: "Computer", score: 50 }
+            { subject: "Math", score: 55 },
+            { subject: "English", score: 60 },
+            { subject: "Science", score: 58 },
+            { subject: "History", score: 52 },
+            { subject: "Computer", score: 50 }
         ],
         attendance: 70
     },
     {
         name: "Riya",
         marks: [
-        { subject: "Math",     score: 88 },
-        { subject: "English",  score: 90 },
-        { subject: "Science",  score: 38 },  // ≤ 40 → should trigger Fail
-        { subject: "History",  score: 80 },
-        { subject: "Computer", score: 85 }
+            { subject: "Math", score: 88 },
+            { subject: "English", score: 90 },
+            { subject: "Science", score: 38 },  // ≤ 40 → should trigger Fail
+            { subject: "History", score: 80 },
+            { subject: "Computer", score: 85 }
         ],
         attendance: 95
     },
     {
         name: "Priya",
         marks: [
-        { subject: "Math",     score: 92 },
-        { subject: "English",  score: 88 },
-        { subject: "Science",  score: 95 },
-        { subject: "History",  score: 85 },
-        { subject: "Computer", score: 91 }
+            { subject: "Math", score: 92 },
+            { subject: "English", score: 88 },
+            { subject: "Science", score: 95 },
+            { subject: "History", score: 85 },
+            { subject: "Computer", score: 91 }
         ],
         attendance: 98
     }
@@ -59,7 +59,7 @@ const students = [
 
 function getTotalMarks(student) {
     let total = 0;
-    for (let i = 0 ; i < student.marks.length ; i++) {
+    for (let i = 0; i < student.marks.length; i++) {
         total += student.marks[i].score;
     }
     return total;
@@ -73,8 +73,8 @@ function getAverage(student) {
 
 function getFailedSubject(student) {
     let failedSubjects;
-    for (let i = 0 ; i < student.marks.lenth ; i++) {
-        if(student.marks[i].score <= 40) {
+    for (let i = 0; i < student.marks.lenth; i++) {
+        if (student.marks[i].score <= 40) {
             failedSubjects.push(student.marks[i].subject);
         }
     }
@@ -85,7 +85,7 @@ function getGrade(student) {
     const avg = getAverage(student);
     const failedSubjects = getFailedSubject(student);
 
-    if (failedSubjects !== null){
+    if (failedSubjects !== null) {
         let failedText = "";
         for (let i = 0; i < failedSubjects.length; i++) {
             failedText += failedSubjects[i];
@@ -97,7 +97,7 @@ function getGrade(student) {
             return `Fail (Low Attendance) (Failed in ${failedText}) `;
         }
     }
-    
+
     if (student.attendance < 75) {
         return `Fail (Low Attendance: ${student.attendance})`;
     }
@@ -132,24 +132,42 @@ for (let i = 0; i < students[0].marks.length; i++) {
 }
 
 for (let s = 0; s < subjects.length; s++) {
-  const subject = subjects[s];
-  let highestScore = -1;
-  let topperName = "";
+    const subject = subjects[s];
+    let highestScore = -1;
+    let topperName = "";
 
-  for (let i = 0; i < students.length; i++) {
-    const student = students[i];
+    for (let i = 0; i < students.length; i++) {
+        const student = students[i];
 
-    for (let j = 0; j < student.marks.length; j++) {
-      const mark = student.marks[j];
+        for (let j = 0; j < student.marks.length; j++) {
+            const mark = student.marks[j];
 
-      if (mark.subject === subject && mark.score > highestScore) {
-        highestScore = mark.score;
-        topperName = student.name;
-      }
+            if (mark.subject === subject && mark.score > highestScore) {
+                highestScore = mark.score;
+                topperName = student.name;
+            }
+        }
     }
-  }
 
-  console.log(`Highest in ${subject}: ${topperName} (${highestScore})`);
+    console.log(`Highest in ${subject}: ${topperName} (${highestScore})`);
 }
 
 console.log("SUBJECT-WISE AVERAGE SCORE");
+for (let s = 0; s < subjects.length; s++) {
+    const subject = subjects[s];
+    let totalScore = 0;
+
+    for (let i = 0; i < students.length; i++) {
+        const student = students[i];
+
+        for (let j = 0; j < student.marks.length; j++) {
+            if (student.marks[j].subject === subject) {
+                totalScore += student.marks[j].score;
+                break;
+            }
+        }
+    }
+
+    const subjectAvg = Math.round((totalScore / students.length) * 10) / 10;
+    console.log(`Average ${subject} Score: ${subjectAvg}`);
+}
