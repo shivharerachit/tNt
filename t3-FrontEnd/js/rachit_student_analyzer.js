@@ -56,3 +56,83 @@ const students = [
         attendance: 98
     }
 ];
+
+function getTotalMarks(student) {
+    let total = 0;
+    for (let i = 0 ; i < student.marks.length ; i++) {
+        total += student.marks[i].score;
+    }
+    return total;
+}
+
+function getAverage(student) {
+    const total = getTotalMarks(student);
+    const avg = total / student.marks.length;
+    return Math.round(avg * 10) / 10;
+}
+
+function getFailedSubject(student) {
+    let failedSubjects;
+    for (let i = 0 ; i < student.marks.lenth ; i++) {
+        if(student.marks[i].score <= 40) {
+            failedSubjects.push(student.marks[i].subject);
+        }
+    }
+    return failedSubjects.length === 0 ? null : failedSubjects;
+}
+
+function getGrade(student) {
+    const avg = getAverage(student);
+    const failedSubjects = getFailedSubject(student);
+
+    if (failedSubjects !== null){
+        let failedText = "";
+        for (let i = 0; i < failedSubjects.length; i++) {
+            failedText += failedSubjects[i];
+            if (i < failedSubjects.length - 1) {
+                failedText += ", ";
+            }
+        }
+        if (student.attendance < 75) {
+            return `Fail (Low Attendance) (Failed in ${failedText}) `;
+        }
+    }
+    
+    if (student.attendance < 75) {
+        return `Fail (Low Attendance: ${student.attendance})`;
+    }
+
+    if (avg >= 85) {
+        return "A";
+    } else if (avg >= 70) {
+        return "B";
+    } else if (avg >= 50) {
+        return "C";
+    } else {
+        return "Fail";
+    }
+}
+
+console.log("TOTAL MARKS FOR EACH STUDENT");
+students.forEach(function (student) {
+    const total = getTotalMarks(student);
+    console.log(`${student.name} Total Marks: ${total}`);
+});
+
+console.log("AVERAGE MARKS FOR EACH STUDENT");
+students.forEach(function (student) {
+    const average = getAverage(student);
+    console.log(`${student.name} Average Marks: ${average}`);
+});
+
+console.log("SUBJECT-WISE HIGHEST SCORE IN THE CLASS");
+const subjects = students[0].marks.map(function (markObject) {
+    return markObject.subject;
+});
+
+subjects.forEach(function (subject) {
+    let highestScore = -1;
+    let topperName = "";
+
+     
+});
