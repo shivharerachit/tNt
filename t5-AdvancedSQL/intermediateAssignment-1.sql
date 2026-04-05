@@ -1,0 +1,20 @@
+-- a. Find products priced higher than the average price in their category. Order By category ascending and price descending using Subquery.
+-- b. Get products that are more expensive than any 'Furniture' category product using Subquery.
+-- c. Create a stored procedure to apply a discount on a specific category of products.
+-- d. Create a trigger to update a customer's total spending whenever they place a new order.
+-- e. Retrieve all customers along with their latest order details, showing "No orders placed" if no orders exist. Using COALESCE.
+-- f. Find customers whose email and mobile number are the same. If they are the same, return NULL instead of duplicate values.
+-- g. Categorize orders based on total amount spent:
+-- i. Low Value: Less than $100
+-- ii. Medium Value: $100 - $500
+-- iii. High Value: More than $500
+-- h. Find the number of orders placed per month.
+-- i. Replace all 0 values in a column discount with NULL.
+-- j. Divide total_amount by quantity but avoid division by zero using NULLIF.
+-- k. Count non-zero values in a column score. 4thFloor, Brilliant Platina, Scheme Number 78, Vijay Nagar, Part II
+-- l. Calculate average salary excluding rows where salary = 0.
+-- m. Find percentage contribution of each row (value / total_value) safely handling zero totals.
+-- n. Convert empty strings ('') in a column email to NULL.
+-- o. Identify rows where two columns start_date and end_date are equal using NULLIF.
+-- p. Use NULLIF inside an aggregation to ignore specific values (e.g., exclude -1 from avg).
+-- q. Replace a value only when two columns match (hint: combine NULLIF + CASE).

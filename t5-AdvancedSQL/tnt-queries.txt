@@ -1,0 +1,268 @@
+-- Create Database (run this first)
+CREATE DATABASE AdvancedSQLPractice;
+
+USE AdvancedSQLPractice;
+
+-- 1. Departments Table
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    location VARCHAR(50)
+);
+
+-- 2. Employees Table (core table used in almost every example)
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DECIMAL(10,2),
+    department_id INT,
+    bonus DECIMAL(10,2) NULL,
+    hire_date DATE,
+    phone VARCHAR(20) NULL,
+    email VARCHAR(100) NULL,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+-- 3. Sales Table
+CREATE TABLE sales (
+    sale_id INT PRIMARY KEY,
+    product VARCHAR(50),
+    revenue DECIMAL(10,2),
+    quantity INT,
+    discount DECIMAL(10,2) NULL
+);
+
+-- 4. Customers Table
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    phone VARCHAR(20) NULL,
+    email VARCHAR(100) NULL
+);
+
+-- 5. Audit Log Table (used for Triggers)
+CREATE TABLE audit_log (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    event VARCHAR(255),
+    event_time DATETIME,
+    employee_id INT NULL
+);
+
+-- INSERT Sample Data
+INSERT INTO departments VALUES 
+(10, 'New York'),
+(20, 'London'),
+(30, 'Paris');
+
+INSERT INTO employees VALUES 
+(1, 'Alice', 6000, 10, 1000, '2025-01-15', '9876543210', 'alice@company.com'),
+(2, 'Bob', 4000, 20, NULL, '2024-11-01', NULL, 'bob@company.com'),
+(3, 'Charlie', 2000, 10, NULL, '2026-02-20', '1112223334', NULL),
+(4, 'David', 5500, 30, 500, '2025-03-10', NULL, NULL),
+(5, 'Eve', 7000, 10, NULL, '2024-05-05', '5556667778', 'eve@company.com');
+
+INSERT INTO sales VALUES 
+(101, 'Laptop', 1200, 5, 10),
+(102, 'Phone', 800, 0, 0),
+(103, 'Tablet', 500, 10, NULL),
+(104, 'Monitor', 300, 3, 5);
+
+INSERT INTO customers VALUES 
+(1, 'John', '9876543210', NULL),
+(2, 'Sarah', NULL, 'sarah@email.com'),
+(3, 'Mike', NULL, NULL);
+
+
+
+QUESTiONS :- 
+
+Section 1: Subqueries (Questions 1–12)
+
+1. Write a scalar subquery to show employee name and salary only for those earning more than the overall average salary.
+Query:- 
+SELECT 
+	e.name,
+	e.salary
+FROM employees e
+WHERE e.salary > (SELECT AVG(e2.salary)
+		  FROM employees e2);
+Result:- 
++-------+---------+
+| name  | salary  |
++-------+---------+
+| Alice | 6000.00 |
+| David | 5500.00 |
+| Eve   | 7000.00 |
++-------+---------+
+3 rows in set (0.00 sec)
+			
+2. What will happen if the scalar subquery in Q1 returns more than one row? Write a query that deliberately causes this error.
+Query:- 
+SELECT
+	e.name,
+	e.salary
+FROM employees e
+WHERE e.salary > (SELECT e2.salary
+		  FROM employees e2);
+
+Result:- 
+ERROR 1242 (21000): Subquery returns more than 1 row
+
+3. Write a correlated subquery to show employees who earn more than the average salary of their own department.
+Query:- 
+SELECT 
+	e.name,
+	e.salary,
+	e.department_id
+FROM employees e
+WHERE e.salary > (SELECT AVG(e2.salary)
+		  FROM employees e2
+		  WHERE e.department_id = e2.department_id);
+
+Result:- 
++-------+---------+---------------+
+| name  | salary  | department_id |
++-------+---------+---------------+
+| Alice | 6000.00 |            10 |
+| Eve   | 7000.00 |            10 |
++-------+---------+---------------+
+2 rows in set (0.00 sec)
+
+4. Rewrite Q3 using a derived table (subquery in FROM) + JOIN. Which one do you think is faster?
+Query:-
+SELECT
+	e.name,
+	e.salary,
+	e.department_id,
+	d.dept_avg
+FROM employees e
+JOIN (
+    SELECT 
+        department_id,
+        AVG(salary) AS dept_avg
+    FROM employees
+    GROUP BY department_id
+) AS d ON e.department_id = d.department_id
+WHERE e.salary > d.dept_avg;
+
+Result:- 
++-------+---------+---------------+-------------+
+| name  | salary  | department_id | dept_avg    |
++-------+---------+---------------+-------------+
+| Alice | 6000.00 |            10 | 5000.000000 |
+| Eve   | 7000.00 |            10 | 5000.000000 |
++-------+---------+---------------+-------------+
+2 rows in set (0.00 sec)
+
+5. Write a query using EXISTS to show only employees who belong to a department located in 'New York'.
+Query:-
+SELECT *
+FROM employees e
+WHERE EXISTS (
+	SELECT 1
+	FROM departments d
+	WHERE d.department_id = e.department_id
+	AND d.location = 'New York'
+);
+
+Result:- 
++----+---------+---------+---------------+---------+------------+------------+-------------------+
+| id | name    | salary  | department_id | bonus   | hire_date  | phone      | email             |
++----+---------+---------+---------------+---------+------------+------------+-------------------+
+|  1 | Alice   | 6000.00 |            10 | 1000.00 | 2025-01-15 | 9876543210 | alice@company.com |
+|  3 | Charlie | 2000.00 |            10 |    NULL | 2026-02-20 | 1112223334 | NULL              |
+|  5 | Eve     | 7000.00 |            10 |    NULL | 2024-05-05 | 5556667778 | eve@company.com   |
++----+---------+---------+---------------+---------+------------+------------+-------------------+
+3 rows in set (0.00 sec)
+
+7. Rewrite the same logic as Q6 using IN instead of EXISTS.
+Query:-
+
+Result:- 
+
+
+8. Write a derived table that shows department_id and avg_salary, then filter only departments with avg_salary > 5000.
+Query:-
+
+Result:- 
+
+
+9. Create a query that uses a subquery in the SELECT clause to show each employee’s name + their department’s location (scalar subquery).
+Query:-
+
+Result:- 
+
+
+10. Write a query that finds employees whose salary is higher than both the company average and their department average (two subqueries).
+Query:-
+
+Result:- 
+
+
+11. What happens if you forget the alias for a derived table? Write the incorrect query and the corrected one.
+Query:-
+
+Result:- 
+
+
+12. Combine a correlated subquery with EXISTS: show employees who have a bonus > 0 and belong to a department that has at least one employee with salary > 6000.
+Query:-
+
+Result:- 
+
+
+
+Section 2: Stored Procedures (Questions 13–20)
+
+Create a stored procedure GetEmployeeDetails that takes @emp_id as input and returns the full row of that employee.
+Create a stored procedure GetEmployeeCount that takes @dept_id as input and returns the count of employees in that department using an OUTPUT parameter.
+Modify the procedure in Q14 to also print “No employees found” if count = 0 using IF logic.
+Create a stored procedure UpdateSalary that takes @emp_id and @increment and increases the salary, then returns the updated employee row.
+Create a stored procedure with a transaction: increase salary of all employees in department 10 by 10%. Rollback if any error occurs.
+Create a stored procedure that uses a parameter to filter employees by department and returns only name + salary.
+What is the difference between a stored procedure and a function? Write one example of each for the same task (get employee count).
+Create a stored procedure that accepts a department_id and bonus amount, then gives that bonus to every employee in the department (multiple statements).
+
+Section 3: Triggers (Questions 21–26)
+
+Create an AFTER INSERT trigger on employees that logs “New Employee Added” into audit_log with current time.
+Create an AFTER INSERT trigger that logs the actual employee_id and action = 'INSERT' using the INSERTED table.
+Create an AFTER UPDATE trigger on employees that logs “Employee data updated”.
+Create an AFTER DELETE trigger that logs “Employee deleted”.
+Create a BEFORE INSERT trigger (validation) that prevents inserting an employee with negative salary (use SIGNAL or RAISERROR style as per PDF).
+Create a trigger that automatically updates a summary table (assume a table dept_summary with total_salary column) whenever an employee’s salary changes.
+
+Section 4: COALESCE (Questions 27–32)
+
+Show employee name and COALESCE(bonus, 0) as bonus_amount.
+For customers, show name and COALESCE(phone, email, 'No Contact').
+Write a query using COALESCE to show salary + bonus, but if either is NULL treat the missing one as 0.
+Use COALESCE on an aggregate: show total salary of all employees; if no rows, return 0 instead of NULL.
+Combine COALESCE with a subquery: show each employee’s name and their department’s average salary (replace NULL avg with 0).
+What happens if you pass incompatible data types to COALESCE? Give an example that would cause an error.
+
+Section 5: NULLIF (Questions 33–37)
+
+Show product and NULLIF(discount, 0) as adjusted_discount from sales table.
+Write a query to calculate average revenue per unit (revenue / NULLIF(quantity, 0)) and handle quantity = 0 safely.
+Combine NULLIF + COALESCE: calculate revenue per unit, and if result is NULL replace with 0.
+Use NULLIF to convert empty string phone numbers to NULL in the customers table.
+Write a query that treats salary = 0 as NULL using NULLIF, then uses it in a comparison.
+
+Section 6: CASE Statement (Questions 38–44)
+
+Categorize employees as 'High', 'Medium', or 'Low' salary using Searched CASE (use the exact salary bands from the PDF example).
+Use Simple CASE to show department name: 10 → 'HR', 20 → 'IT', else 'Other'.
+Use CASE inside WHERE clause: show employees who earn > 3000 if in dept 10, otherwise > 5000.
+Use CASE inside ORDER BY to show high-salary employees first.
+Write conditional aggregation: count of high-salary (>5000) vs low-salary employees in one query.
+Create a nested CASE: if salary > 5000 then further check if department is 10 ('High-HR') else 'High-Other'.
+What happens if you put conditions in the wrong order in CASE? Show a buggy query and the fixed version.
+
+Section 7: Date Functions (Questions 45–50)
+
+Show current date and time using GETDATE().
+Add a column days_since_hire using GETDATE() and hire_date (DATEDIFF).
+Show employees hired in the last 30 days using GETDATE().
+Create a default value for a new column last_updated using GETDATE() in an ALTER TABLE statement.
+Use GETDATE() inside a stored procedure to log the exact time an employee record was viewed.
+Write a query that shows employee name, hire_date, and “Senior” if hired more than 365 days ago (using GETDATE()).

@@ -1,0 +1,5 @@
+-- a. Find the top 3 customers who have spent the most on orders using a CTE.
+-- b. Retrieve all orders where the total amount exceeds 500, converting the amount to an integer. Using CAST
+-- c. Write a CRON job to generate daily sales reports at 11:55 PM
+-- d. Write a transaction to insert a new customer and an order. If the order fails, roll back the customer creation.
+-- e. Rank customers based on their total spending, showing ranks even if values are tied.
