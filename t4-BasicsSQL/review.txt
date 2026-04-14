@@ -1,0 +1,3 @@
+"Q7(d)product_id in the Orders table is not defined as NOT NULL, so it may contain NULL values. If the subquery returns NULL, for example (1, 2, NULL), then a condition like 3 NOT IN (1, 2, NULL) evaluates to UNKNOWN and does not return 3, which is an expected result
+Q7(e,g) Query ignores customers with no orders their average spent and total quantity it should be 0 but output should still show that
+Q7.(i) similar to Q7(d) Orders.product_id can contain null"

@@ -44,7 +44,7 @@ MODIFY description TEXT;
 CREATE TABLE Orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
-    product_id INT,
+    product_id INT NOT NULL,
     quantity INT NOT NULL,
     order_date DATE NOT NULL,
     status ENUM('Pending', 'Success', 'Cancel'),
@@ -164,10 +164,11 @@ WHERE NOT EXISTS (
 );
 
 -- Find the average total amount spent by each customer.
-
-SELECT o.customer_id, AVG(total_amount)
-FROM Orders o
-GROUP BY o.customer_id;
+SELECT c.customer_id,
+       COALESCE(AVG(o.total_amount), 0) AS average_total_amount
+FROM Customers c
+LEFT JOIN Orders o ON o.customer_id = c.customer_id
+GROUP BY c.customer_id;
 
 -- Get the products that have a price less than the average price of all products.
 
@@ -176,10 +177,11 @@ FROM Products p
 WHERE p.price < (SELECT AVG(price) FROM Products);
 
 -- Calculate the total quantity of products ordered by each customer:
-
-SELECT o.customer_id, SUM(o.quantity)
-FROM Orders o
-GROUP BY o.customer_id;
+SELECT c.customer_id,
+       COALESCE(SUM(o.quantity), 0) AS total_quantity
+FROM Customers c
+LEFT JOIN Orders o ON o.customer_id = c.customer_id
+GROUP BY c.customer_id;
 
 -- List all orders along with customer name and product name.
 

@@ -89,7 +89,7 @@ MODIFY description TEXT;</code></pre>
         <pre><code>CREATE TABLE Orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
-    product_id INT,
+    product_id INT NOT NULL,
     quantity INT NOT NULL,
     order_date DATE NOT NULL,
     status ENUM('Pending', 'Success', 'Cancel'),
@@ -242,9 +242,11 @@ WHERE NOT EXISTS (
                 <img src="screenshots/12.png" alt="Customers Without Orders">
             </li>
             <li>Find the average total amount spent by each customer.
-            <pre><code>SELECT o.customer_id, AVG(total_amount)
-FROM Orders o
-GROUP BY o.customer_id;</code></pre>
+            <pre><code>SELECT c.customer_id,
+       COALESCE(AVG(o.total_amount), 0) AS average_total_amount
+FROM Customers c
+LEFT JOIN Orders o ON o.customer_id = c.customer_id
+GROUP BY c.customer_id;</code></pre>
                     <img src="screenshots/13.png" alt="Average Total Amount Spent by Each Customer">
             </li>
             <li>Get the products that have a price less than the average price of all products.
@@ -254,9 +256,11 @@ WHERE p.price < (SELECT AVG(price) FROM Products);</code></pre>
                 <img src="screenshots/14.png" alt="Products Below Average Price">
             </li>
             <li>Calculate the total quantity of products ordered by each customer.
-            <pre><code>SELECT o.customer_id, SUM(o.quantity)
-FROM Orders o
-GROUP BY o.customer_id;</code></pre>
+            <pre><code>SELECT c.customer_id,
+       COALESCE(SUM(o.quantity), 0) AS total_quantity
+FROM Customers c
+LEFT JOIN Orders o ON o.customer_id = c.customer_id
+GROUP BY c.customer_id;</code></pre>
                 <img src="screenshots/15.png" alt="Total Quantity Ordered by Each Customer">
             </li>
             <li>List all orders along with customer name and product name.
