@@ -12,6 +12,7 @@ var defaultProducts = [
 ];
 
 function loadProductsFromStorage() {
+  // Restore saved products if present, otherwise start with the default seed data
     var saved = localStorage.getItem("products");
     if (saved) {
         return JSON.parse(saved);
@@ -21,9 +22,11 @@ function loadProductsFromStorage() {
 }
 
 function saveProductsToStorage(productsArray) {
+  // Persist the latest product list so reloads keep user changes
     localStorage.setItem("products", JSON.stringify(productsArray));
 }
 
+// Single source of truth used across render, analytics, and CRUD actions
 var products = loadProductsFromStorage();
 
 function fetchProducts() {
@@ -86,7 +89,7 @@ function renderProducts(productsToShow) {
             "<p>Category: " + product.category + "</p>" +
             "<p>Price: ₹" + product.price.toLocaleString("en-IN") + "</p>" +
             "<p class='" + stockClass + "'>" + stockLabel + "</p>" +
-            "<button onclick='deleteProduct(" + product.id + ")'>Delete</button>";
+          "<button class='delete-product-btn' data-product-id='" + product.id + "'>Delete</button>";
 
         grid.appendChild(card);
     }
@@ -98,26 +101,31 @@ function applyFiltersAndRender() {
   var lowStockOnly   = document.getElementById("lowStockFilter").checked;
   var sortOption     = document.getElementById("sortSelect").value;
 
-  var filtered = products;
+  // Pipeline step 1: clone the list so sorting does not mutate the original array
+  var filtered = products.slice();
 
+  // Pipeline step 2: apply search text filter
   if (searchText !== "") {
     filtered = filtered.filter(function(p) {
       return p.name.toLowerCase().indexOf(searchText) !== -1;
     });
   }
 
+  // Pipeline step 3: narrow to a specific category
   if (selectedCategory !== "all") {
     filtered = filtered.filter(function(p) {
       return p.category === selectedCategory;
     });
   }
 
+  // Pipeline step 4: optionally keep only low-stock products
   if (lowStockOnly) {
     filtered = filtered.filter(function(p) {
       return p.stock < 5;
     });
   }
 
+  // Pipeline step 5: sort the already-filtered list based on the selected option
   if (sortOption === "priceLow") {
     filtered.sort(function(a, b) { return a.price - b.price; });
   } else if (sortOption === "priceHigh") {
@@ -136,11 +144,26 @@ function deleteProduct(productId) {
     return p.id !== productId;
   });
 
+  // Save deletion so it remains removed after refresh
   saveProductsToStorage(products);
 
   applyFiltersAndRender();
   updateAnalytics();
 }
+
+document.getElementById("productGrid").addEventListener("click", function(event) {
+  var deleteButton = event.target.closest(".delete-product-btn");
+  if (!deleteButton) {
+    return;
+  }
+
+  var productId = parseInt(deleteButton.getAttribute("data-product-id"), 10);
+  if (isNaN(productId)) {
+    return;
+  }
+
+  deleteProduct(productId);
+});
 
 document.getElementById("addProductBtn").addEventListener("click", function() {
   var name     = document.getElementById("productName").value.trim();
@@ -178,6 +201,7 @@ document.getElementById("addProductBtn").addEventListener("click", function() {
 
   products.push(newProduct);
 
+  // Save newly added product for persistence across sessions
   saveProductsToStorage(products);
 
   document.getElementById("productName").value  = "";
